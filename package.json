@@ -19,9 +19,6 @@
     },
     "dependencies": {
         "@heroicons/vue": "^2.0.16",
-        "@suadelabs/vue3-multiselect": "^1.0.2",
-        "datatables.net-dt": "^1.13.3",
-        "flowbite-datepicker": "^1.2.2",
-        "jquery": "^3.6.3"
+        "@protonemedia/inertiajs-tables-laravel-query-builder": "^2.2.0"
     }
 }

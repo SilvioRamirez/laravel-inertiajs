@@ -16,15 +16,21 @@
 
         </div>
 
-        <div class="bg-white rounded-lg shadow-md mx-4 p-6">
-            <!-- Aquí va nuestra data table jijiji -->
-            <Datatable
-                :url="datatableUrl"
-                :headers="datatableHeaders"
-                :columns="datatableColumns"
-            >
+        <template #header>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                Empleados
+            </h2>
+        </template>
 
-            </Datatable>
+        <div class="py-12">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6 bg-white border-b border-gray-200">
+                         <h3 class="text-2xl text-center">Laravel 9 Inertia JS Datatable</h3>
+                         <Table :resource="empleados"></Table>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </AppLayout>
@@ -35,13 +41,13 @@
 
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { Link } from '@inertiajs/vue3';
-/* import Table from '@/Components/Table.vue'; */
+import { Table } from '@protonemedia/inertiajs-tables-laravel-query-builder';
 import { createInertiaApp } from '@inertiajs/vue3';
 import { ref, toRefs, computed } from 'vue';
-import { useForm, usePage } from '@inertiajs/vue3';
+import { useForm, usePage, Head } from '@inertiajs/vue3';
 import { EyeIcon } from '@heroicons/vue/24/solid';
 import { UserPlusIcon } from '@heroicons/vue/24/solid';
-import Datatable from '@/Shared/Datatable.vue';
+import { setTranslations } from "@protonemedia/inertiajs-tables-laravel-query-builder";
 
 export default {
 
@@ -53,9 +59,21 @@ export default {
         AppLayout,
         EyeIcon,
         UserPlusIcon,
-        Datatable
+        Table,        
     },
-    props: ['datatableUrl', 'datatableColumns', 'datatableHeaders'],    
+    methods:
+        setTranslations({
+            next: "Siguiente",
+            no_results_found: "No se encontraron resultados.",
+            of: "de",
+            per_page: "por página",
+            previous: "Anterior",
+            results: "resultados",
+            to: "a",
+        }),
+    props: (['empleados']),
+    
+   
 }
 
 </script>

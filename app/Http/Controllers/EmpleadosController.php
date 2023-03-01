@@ -2,91 +2,85 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Collection;
 use App\Models\Empleados;
 use App\Http\Requests\StoreEmpleadosRequest;
 use App\Http\Requests\UpdateEmpleadosRequest;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Redirect;
+use ProtoneMedia\LaravelQueryBuilderInertiaJs\InertiaTable;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 use Inertia\Inertia;
 
 class EmpleadosController extends Controller
 {
 
-    /**
-     * Datatable Columns Array
-     *
-     * @var Array
-     */
-    private $datatableColumns;
+    /* public function __invoke()
+    {
+        $globalSearch = AllowedFilter::callback('global', function ($query, $value) {
+            $query->where(function ($query) use ($value) {
+                Collection::wrap($value)->each(function ($value) use ($query) {
+                    $query
+                        ->orWhere('cedula_documento', 'LIKE', "%{$value}%")
+                        ->orWhere('nombre1', 'LIKE', "%{$value}%")
+                        ->orWhere('apellido1', 'LIKE', "%{$value}%")
+                        ->orWhere('email', 'LIKE', "%{$value}%");
+                });
+            });
+        });
+        $empleados = QueryBuilder::for(Empleados::class)
+        ->defaultSort('cedula_documento')
+        ->allowedSorts(['id', 'nombre1', 'apellido1', 'email'])
+        ->allowedFilters(['id', 'nombre1', 'apellido1', 'email', $globalSearch])
+        ->paginate(8)
+        ->withQueryString();
 
-    /**
-     * Datatable Headers Array
-     *
-     * @var Array
-     */
-    private $datatableHeaders;
-
-    /**
-     * Datatables Data URL
-     *
-     * @var String
-     */
-    private $datatableUrl;
-
-    /**
-     * Controller constructor
-     *
-     * @return void
-     */
-    public function __construct() {     
-        $this->datatableHeaders = [
-            'ID', 
-            'Cedula', 
-            'Nombre',
-            'Apellido',
-            'Correo'
-        ];
-
-        $this->datatableColumns = [
-            ['data' => 'id'],
-            ['data' => 'cedula_documento'],
-            ['data' => 'nombre1'],
-            ['data' => 'apellido1'],
-            ['data' => 'email']
-        ];
-
-        $this->datatableUrl = route('empleados.datatables');
-    }
-
-    /**
-     * Get datatables JSON Response
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function datatables() {
-        $datatables = datatables()
-            ->of(Empleados::query())
-            ->addColumn('id', fn($empleado) => $empleado->id)
-            ->addColumn('cedula_documento', fn($empleado) => $empleado->cedula_documento)
-            ->addColumn('nombre1', fn($empleado) => $empleado->nombre1)
-            ->addColumn('apellido1', fn($empleado) => $empleado->apellido1)
-            ->toArray();
-
-        return response()->json($datatables);
-    }
+        return Inertia::render('Empleados/index', ['empleados' => $empleados])->table(function (InertiaTable $table) {
+            $table->column('id', 'ID', searchable: true, sortable: true);
+            $table->column('cedula_documento', 'Cedula', searchable: true, sortable: true);
+            $table->column('nombre1', 'Nombre', searchable: true, sortable: true);
+            $table->column('apellido1', 'Apellido', searchable: true, sortable: true);
+            $table->column('email', 'Correo', searchable: true, sortable: true);
+            $table->column('created_at', 'F. Registro', searchable: true, sortable: true);
+        });
+        
+    } */
 
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        return Inertia::render('Empleados/index')
-            ->with('datatableUrl', $this->datatableUrl)
-            ->with('datatableColumns', $this->datatableColumns)
-            ->with('datatableHeaders', $this->datatableHeaders);
+        $globalSearch = AllowedFilter::callback('global', function ($query, $value) {
+            $query->where(function ($query) use ($value) {
+                Collection::wrap($value)->each(function ($value) use ($query) {
+                    $query
+                        ->orWhere('cedula_documento', 'LIKE', "%{$value}%")
+                        ->orWhere('nombre1', 'LIKE', "%{$value}%")
+                        ->orWhere('apellido1', 'LIKE', "%{$value}%")
+                        ->orWhere('email', 'LIKE', "%{$value}%");
+                });
+            });
+        });
+        $empleados = QueryBuilder::for(Empleados::class)
+        ->defaultSort('cedula_documento')
+        ->allowedSorts(['id', 'cedula_documento', 'nombre1', 'apellido1', 'email'])
+        ->allowedFilters(['id', 'cedula_documento', 'nombre1', 'apellido1', 'email', $globalSearch])
+        ->paginate(8)
+        ->withQueryString();
+
+        return Inertia::render('Empleados/index', ['empleados' => $empleados])->table(function (InertiaTable $table) {
+            $table->column('id', 'ID', searchable: true, sortable: true);
+            $table->column('cedula_documento', 'Cedula', searchable: true, sortable: true);
+            $table->column('nombre1', 'Nombre', searchable: true, sortable: true);
+            $table->column('apellido1', 'Apellido', searchable: true, sortable: true);
+            $table->column('email', 'Correo', searchable: true, sortable: true);
+            $table->column('created_at', 'F. Registro', searchable: false, sortable: false);
+        });
     }
 
     /**
@@ -106,9 +100,9 @@ class EmpleadosController extends Controller
             'cedula_documento' => ['min:8', 'required', 'string', 'max:15'],
             'documento_fiscal' => ['min:8', 'required', 'string', 'max:15'],
             'nombre1' => ['min:3', 'required', 'string', 'max:75'],
-            'nombre2' => ['min:3', 'string', 'max:75'],
+            'nombre2' => ['max:75'],
             'apellido1' => ['min:3', 'required', 'string', 'max:75'],
-            'apellido2' => ['min:3', 'string', 'max:75'],
+            'apellido2' => ['max:75'],
             'sexo' => ['min:3', 'required', 'string', 'max:25'],
             'nacionalidad' => ['min:3', 'required', 'string', 'max:30'],
             'fec_nacimiento' => ['min:3', 'required', 'string', 'max:30'],
