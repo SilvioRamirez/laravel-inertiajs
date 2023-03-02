@@ -230,7 +230,7 @@ export default {
     },
     methods: {
         storeData(){
-            this.form.post(this.route('empleados.store'), {
+            this.form.post(this.route('admin.empleados.store'), {
                 errorBag: 'storeData',
                 preserveScroll: true,
             })

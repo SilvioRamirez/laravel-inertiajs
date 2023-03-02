@@ -29,6 +29,7 @@ defineExpose({ focus: () => input.value.focus() });
         :name="modelValue"
         :autocomplete="modelValue"
         
+        
         @input="$emit('update:modelValue', $event.target.value)"
     >    
 </template>

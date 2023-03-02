@@ -1,12 +1,12 @@
 <template>
-    <AppLayout title="Empleados">
+    <AppLayout title="Usuarios">
         <div class="py-1">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
-                         <h3 class="text-2xl text-center">Listado de Empleados</h3>                         
+                         <h3 class="text-2xl text-center">Listado de Usuarios</h3>
 
-                        <Link :href="route('admin.empleados.create')">
+                        <Link :href="route('admin.users.create')">
                             <button type="button" class="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
                                 <UserPlusIcon class="h-5 w-5 text-white"/>
                                 <span>&nbsp;</span>Crear
@@ -14,14 +14,14 @@
                         </Link>
                         
                         <Table
-                            :resource="empleados"
-                            :data="empleados.data"
-                            :meta="empleados.meta"
+                            :resource="users"
+                            :data="users.data"
+                            :meta="users.meta"
                             :striped="true"
                             preserve-scroll="table-top"
                             >
-                            <template  #cell(acciones)="{ item: empleado }">
-                                <Link :href="`/admin/empleados/${empleado.id}/edit`" class="text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center mr-2 mb-2 dark:focus:ring-yellow-900">
+                            <template  #cell(acciones)="{ item: user }">
+                                <Link :href="`/admin/users/${user.id}/edit`" class="text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center mr-2 mb-2 dark:focus:ring-yellow-900">
                                     <PencilSquareIcon class="h-4 w-4 text-white"/>
                                 </Link>
 
@@ -52,7 +52,7 @@ import { setTranslations } from "@protonemedia/inertiajs-tables-laravel-query-bu
 export default {
 
     created(){
-        document.title = 'Empleados';
+        document.title = 'Usuarios';
     },
     components: {
         Link,
@@ -72,7 +72,7 @@ export default {
             results: "resultados",
             to: "al",
         }),
-    props: (['empleados']),
+    props: (['users']),
     
    
 }

@@ -40,11 +40,11 @@ const updatePassword = () => {
 <template>
     <FormSection @submitted="updatePassword">
         <template #title>
-            Actualizar Contraseña
+            Update Password
         </template>
 
         <template #description>
-            Asegúrese de que su cuenta esté usando una contraseña larga y aleatoria para mantenerse seguro.            
+            Ensure your account is using a long, random password to stay secure.
         </template>
 
         <template #form>
@@ -89,11 +89,11 @@ const updatePassword = () => {
 
         <template #actions>
             <ActionMessage :on="form.recentlySuccessful" class="mr-3">
-                Guardado.
+                Saved.
             </ActionMessage>
 
             <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                Guardar
+                Save
             </PrimaryButton>
         </template>
     </FormSection>

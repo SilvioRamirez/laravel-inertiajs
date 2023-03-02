@@ -25,6 +25,9 @@ const switchToTeam = (team) => {
 const logout = () => {
     router.post(route('logout'));
 };
+
+
+
 </script>
 
 <template>
@@ -53,9 +56,23 @@ const logout = () => {
                                 </NavLink>
                             </div>
 
-                            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <NavLink :href="route('empleados.index')" :active="route().current('empleados.index')">
+                            <div v-if="$page.props.auth.user.is_admin" class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                                <NavLink :href="route('admin.empleados.index')" :active="route().current('admin.empleados.index')">
                                     Empleados
+                                </NavLink>
+                            </div>
+                            
+                            <!-- Admins Area -->
+                           <div v-if="can('ver:permissions')" class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                                <NavLink :href="route('admin.empleados.index')" :active="route().current('admin.empleados.index')">
+                                    Permisos
+                                </NavLink>
+                            </div>
+
+                            <!-- Users Area -->
+                            <div v-if="can('ver:users')" class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                                <NavLink :href="route('admin.users.index')" :active="route().current('admin.users.index')">
+                                    Usuarios
                                 </NavLink>
                             </div>
                         </div>
@@ -291,3 +308,16 @@ const logout = () => {
         </div>
     </div>
 </template>
+
+<script>
+
+export default{
+    methods: {
+        can(permission){
+            if (this.$page.props.auth.user.is_admin) return true;
+            return this.$page.props.auth.user.permissions.includes(permission);
+        }
+    }
+}
+
+</script>

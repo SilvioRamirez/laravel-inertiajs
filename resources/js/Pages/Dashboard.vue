@@ -7,7 +7,7 @@ import Welcome from '@/Components/Welcome.vue';
     <AppLayout title="Panel de Control">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Dashboard
+                Panel de Control
             </h2>
         </template>
 
