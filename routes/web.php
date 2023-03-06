@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\EmpleadosController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\RolesController;
+
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
@@ -52,21 +54,21 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
     Route::prefix('admin')->name('admin.')->middleware(['role:admin'])->group(function(){
         Route::prefix('empleados')->name('empleados.')->group(function (){
-            Route::get('/', [EmpleadosController::class, 'index'])->name('index');
-            Route::get('/create', [EmpleadosController::class, 'create'])->name('create');
-            Route::post('/', [EmpleadosController::class, 'store'])->name('store');
-            Route::get('{empleados}/edit', [EmpleadosController::class, 'edit'])->name('edit');
-            Route::put('{empleados}', [EmpleadosController::class, 'update'])->name('update');
-            Route::put('{empleados}/delete', [EmpleadosController::class, 'destroy'])->name('destroy');
+            Route::get('/',                     [EmpleadosController::class, 'index'])->name('index');
+            Route::get('/create',               [EmpleadosController::class, 'create'])->name('create');
+            Route::post('/',                    [EmpleadosController::class, 'store'])->name('store');
+            Route::get('{empleados}/edit',      [EmpleadosController::class, 'edit'])->name('edit');
+            Route::put('{empleados}',           [EmpleadosController::class, 'update'])->name('update');
+            Route::put('{empleados}/delete',    [EmpleadosController::class, 'destroy'])->name('destroy');
         });
     
         Route::prefix('users')->name('users.')->middleware(['can:ver:users'])->group(function (){
-            Route::get('/', [UsersController::class, 'index'])->name('index');
-            Route::get('/create', [UsersController::class, 'create'])->name('create');
-            Route::post('/', [UsersController::class, 'store'])->name('store');
-            Route::get('{users}/edit', [UsersController::class, 'edit'])->name('edit');
-            Route::put('{users}', [UsersController::class, 'update'])->name('update');
-            Route::put('{users}/delete', [UsersController::class, 'destroy'])->name('destroy');
+            Route::get('/',                 [UsersController::class, 'index'])->name('index');
+            Route::get('/create',           [UsersController::class, 'create'])->name('create');
+            Route::post('/',                [UsersController::class, 'store'])->name('store');
+            Route::get('{users}/edit',      [UsersController::class, 'edit'])->name('edit');
+            Route::put('{users}',           [UsersController::class, 'update'])->name('update');
+            Route::put('{users}/delete',    [UsersController::class, 'destroy'])->name('destroy');
         });
 
     });
@@ -74,7 +76,12 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     
 
     Route::prefix('roles')->name('roles.')->middleware(['can:ver:roles'])->group(function (){
-        Route::get('/', [EmpleadosController::class, 'index'])->name('dashboard');
+        Route::get('/',                     [RolesController::class, 'index'])->name('index');
+        Route::get('/create',               [RolesController::class, 'create'])->name('create');
+        Route::post('/',                    [RolesController::class, 'store'])->name('store');
+        Route::get('{roles}/edit',      [RolesController::class, 'edit'])->name('edit');
+        Route::put('{roles}',           [RolesController::class, 'update'])->name('update');
+        Route::put('{roles}/delete',    [RolesController::class, 'destroy'])->name('destroy');
     });
 
     Route::prefix('permissions')->name('permissions.')->middleware(['can:ver:permissions'])->group(function (){
