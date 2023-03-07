@@ -69,4 +69,15 @@ class User extends Authenticatable
     public function setPasswordAtribbute($password){
         $this->attributes['password'] = Hash::needsRehash($password) ? Hash::make($password) : $password;
     }
+
+    public function getCreatedAtAttribute()
+    {
+        return \Carbon\Carbon::parse($this->attributes['created_at'])->diffForHumans();
+    }
+
+    public function getUpdatedAtAttribute()
+    {
+        return \Carbon\Carbon::parse($this->attributes['updated_at'])->diffForHumans();
+    }
+
 }

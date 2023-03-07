@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 /* use Illuminate\Http\Request;
  */
 use App\Models\User;
+
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Request;
@@ -68,7 +70,16 @@ class UsersController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Users/create');
+
+        return Inertia::render('Users/create', [
+            'roles' => Role::orderBy('name')->get(),
+        ]);
+
+
+        //roles
+        /* return Inertia::render('Users/create', [
+            'permissions' => Permission::orderBy('name')->get(),
+        ]); */
     }
 
     /**
