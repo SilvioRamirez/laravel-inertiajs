@@ -1,5 +1,5 @@
 <template>
-    <title>Vue Edit</title>
+    <h1>Vue Edit</h1>
 </template>
 <script>
 
