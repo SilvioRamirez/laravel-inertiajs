@@ -20,11 +20,20 @@
                             :striped="true"
                             preserve-scroll="table-top"
                             >
+                            <!-- <slot :name="`cell(${roles.name})`" :item="item">
+                                {{ get(item, roles.name) }}
+                            </slot> -->
                             <template  #cell(acciones)="{ item: user }">
                                 <Link :href="`/admin/users/${user.id}/edit`" class="text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center mr-2 mb-2 dark:focus:ring-yellow-900">
                                     <PencilSquareIcon class="h-4 w-4 text-white"/>
                                 </Link>
-
+                            </template>
+                            <template  #cell(roles_name)="{ item: user }">
+                                <div class="flex space-x-1">
+                                    <div v-for="role in user.roles">
+                                        <span>{{ role.name }}</span>
+                                    </div>
+                                </div>
                             </template>
 
                             

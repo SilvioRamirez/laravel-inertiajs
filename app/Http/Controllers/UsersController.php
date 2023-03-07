@@ -27,6 +27,12 @@ class UsersController extends Controller
         $globalSearch = AllowedFilter::callback('global', function ($query, $value) {
             $query->where(function ($query) use ($value) {
                 Collection::wrap($value)->each(function ($value) use ($query) {
+                    
+                    // Copy: Begin
+                    $query->orwhereHas('roles', function ($subquery) use ($value) {
+                        $subquery->where('name', 'LIKE', "%{$value}%");
+                    });
+                    // Copy: End
                     $query
                         ->orWhere('name', 'LIKE', "%{$value}%")
                         ->orWhere('email', 'LIKE', "%{$value}%");
@@ -36,6 +42,7 @@ class UsersController extends Controller
         
         $users = QueryBuilder::for(User::class)
             ->defaultSort('id')
+            ->with('roles:id,name')
             ->allowedSorts(['id', 'name', 'email'])
             ->allowedFilters(['id', 'name', 'email', $globalSearch])
             ->paginate(10)
@@ -50,6 +57,7 @@ class UsersController extends Controller
                 ->column('id', 'ID', searchable: true, sortable: true)
                 ->column('name', 'Nombre y Apellido', searchable: true, sortable: true, canBeHidden: false)
                 ->column('email', 'Correo', searchable: true, sortable: true)
+                ->column(key: 'roles_name', label: 'Roles', searchable: true)
                 ->column('created_at', 'F. Registro', searchable: false, sortable: false)
                 ->column(label: 'Acciones');
         });
